@@ -35,6 +35,18 @@
             <input type="submit" onclick="getLat()">
         </form>
     </p>
+    <p>Enter Ending Longitude: 200
+        <form id="form" onsubmit="return false;">
+            <input type="text" id="userInput8">
+            <input type="submit" onclick="getLongend()">
+        </form>
+    </p>
+    <p>Enter Ending Latitude: 900
+        <form id="form" onsubmit="return false;">
+            <input type="text" id="userInput9">
+            <input type="submit" onclick="getLatend()">
+        </form>
+    </p>
     <p>Enter Cost($) per Passenger: 50
         <form id="form" onsubmit="return false;">
             <input type="text" id="userInput5">
@@ -51,8 +63,10 @@
         var f = "0x0000000000000000000000000000000000000000";
         var g = "false";
         var h = "0x0000000000000000000000000000000000000000";
-        var i = 6000;
-        var j = 1;
+        var i;
+        var j;
+        var k;
+        var l;
 
 
 
@@ -86,22 +100,58 @@
             e = _e;
             console.log(_e);
         }
+        function getrideID() {
+            var input = document.getElementById("userInput6").value;
+            let _j = input;
+            j = _j;
+            console.log(_j);
+        }
+        function getMaxFee() {
+            var input = document.getElementById("userInput7").value;
+            let _i = input;
+            i = _i;
+            console.log(_i);
+        }
+        function getLongend() {
+            var input = document.getElementById("userInput8").value;
+            let _k = input;
+            c = _k;
+            console.log(_k);
+        }
+        function getLatend() {
+            var input = document.getElementById("userInput9").value;
+            let _l = input;
+            l = _l;
+            console.log(_l);
+        }
 
         //101020, 100, 200, 50, "0x0000000000000000000000000000000000000000", "false", "0x0000000000000000000000000000000000000000"
         // 101020, 100, 200, 50, "0x0000000000000000000000000000000000000000", "false", "0x0000000000000000000000000000000000000000", 60
     </script>
 
-    <button onclick="issueBounty()"> Create a Ride Offer </button>
-    <button onclick="activateBounty()"> Driver to confirm ready status </button>
-    <button onclick="fulfillBounty()"> Driver to confirm passenger enters car </button>
+    <button onclick="issueBounty()">1. Create a Ride Offer </button>
+    <button onclick="activateBounty()">3.  Driver to confirm ready status </button>
+    <button onclick="fulfillBounty()">4a. Driver to confirm passenger enters car </button>
 
+    
 <br></br>
 
 <p>Passenger's Menu</p>
-
-<button onclick="issueAndActivateBounty()"> Passenger to confirm ride selection or match </button>
-<button onclick="updateFulfillment()"> Passenger to confirm entry into vehicle</button>
-<button onclick="acceptFulfillment()"> Passenger to confirm ride completion </button>
+<p>Enter RideID you want to match with: 1
+    <form id="form" onsubmit="return false;">
+        <input type="text" id="userInput6">
+        <input type="submit" onclick="getrideID()">
+    </form>
+</p>
+<p>How much are you down to pay?($): 6000
+    <form id="form" onsubmit="return false;">
+        <input type="text" id="userInput7">
+        <input type="submit" onclick="getMaxFee()">
+    </form>
+</p>
+<button onclick="issueAndActivateBounty()">2. Passenger to confirm ride selection or match </button>
+<button onclick="updateFulfillment()">4b. Passenger to confirm entry into vehicle</button>
+<button onclick="acceptFulfillment()">5. Passenger to confirm ride completion </button>
 
     <script>
         var provider = new ethers.providers.Web3Provider(web3.currentProvider, 'rinkeby');
