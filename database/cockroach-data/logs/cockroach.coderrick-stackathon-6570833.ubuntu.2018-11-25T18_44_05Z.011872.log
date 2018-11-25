@@ -1,0 +1,35 @@
+I181125 18:44:05.814635 1 util/log/clog.go:1176  [config] file created at: 2018/11/25 18:44:05
+I181125 18:44:05.814635 1 util/log/clog.go:1176  [config] running on machine: coderrick-stackathon-6570833
+I181125 18:44:05.814635 1 util/log/clog.go:1176  [config] binary: CockroachDB CCL v2.1.1 (x86_64-unknown-linux-gnu, built 2018/11/19 18:24:21, go1.10.3)
+I181125 18:44:05.814635 1 util/log/clog.go:1176  [config] arguments: [cockroach start --insecure]
+I181125 18:44:05.814635 1 util/log/clog.go:1176  line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+W181125 18:44:05.814633 1 cli/start.go:1055  RUNNING IN INSECURE MODE!
+
+- Your cluster is open for any client that can access <all your IP addresses>.
+- Any user, even root, can log in without providing a password.
+- Any user, connecting as root, can read or write any data in your cluster.
+- There is no network encryption nor authentication, and thus no confidentiality.
+
+Check out how to secure your cluster: https://www.cockroachlabs.com/docs/v2.1/secure-a-cluster.html
+W181125 18:44:05.815539 1 cli/start.go:935  Using the default setting for --cache (128 MiB).
+  A significantly larger value is usually needed for good performance.
+  If you have a dedicated server a reasonable setting is --cache=.25 (128 MiB).
+W181125 18:44:05.815777 1 cli/start.go:948  Using the default setting for --max-sql-memory (128 MiB).
+  A significantly larger value is usually needed in production.
+  If you have a dedicated server a reasonable setting is --max-sql-memory=.25 (128 MiB).
+I181125 18:44:05.815950 1 cli/start.go:1069  CockroachDB CCL v2.1.1 (x86_64-unknown-linux-gnu, built 2018/11/19 18:24:21, go1.10.3)
+I181125 18:44:05.918232 1 server/config.go:385  system total memory: 512 MiB
+I181125 18:44:05.918298 1 server/config.go:387  server configuration:
+max offset             500000000
+cache size             128 MiB
+SQL memory pool size   128 MiB
+scan interval          10m0s
+scan min idle time     10ms
+scan max idle time     1s
+event log enabled      true
+I181125 18:44:05.918327 1 cli/start.go:920  process identity: uid 1000 euid 1000 gid 1000 egid 1000
+I181125 18:44:05.918339 1 cli/start.go:545  starting cockroach node
+I181125 18:44:05.920498 52 storage/engine/rocksdb.go:574  opening rocksdb instance at "/home/ubuntu/workspace/database/cockroach-data/cockroach-temp550070060"
+I181125 18:44:05.968830 52 server/server.go:849  [n?] monitoring forward clock jumps based on server.clock.forward_jump_check_enabled
+E181125 18:44:05.975407 1 cli/error.go:230  cockroach server exited with error: consider changing the port via --http-addr: listen tcp :8080: bind: address already in use
+Error: cockroach server exited with error: consider changing the port via --http-addr: listen tcp :8080: bind: address already in use

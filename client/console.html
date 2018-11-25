@@ -1,0 +1,256 @@
+<!doctype html>
+<html ⚡>
+
+<head>
+    <meta charset="utf-8">
+    <title>My AMP Page</title>
+    <link rel="canonical" href="self.html" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js">
+    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style amp-boilerplate>
+        body {
+            -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            animation: -amp-start 8s steps(1, end) 0s 1 normal both
+        }
+
+        @-webkit-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+            to {
+                visibility: visible
+            }
+        }
+
+        @-moz-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+            to {
+                visibility: visible
+            }
+        }
+
+        @-o-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+            to {
+                visibility: visible
+            }
+        }
+
+        @keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+            to {
+                visibility: visible
+            }
+        }
+
+        *,
+        *:before,
+        *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: #384047;
+        }
+
+        table {
+            max-width: 960px;
+            margin: 10px auto;
+        }
+
+        caption {
+            font-size: 1.6em;
+            font-weight: 400;
+            padding: 10px 0;
+        }
+
+        thead th {
+            font-weight: 400;
+            background: #8a97a0;
+            color: #FFF;
+        }
+
+        tr {
+            background: #f4f7f8;
+            border-bottom: 1px solid #FFF;
+            margin-bottom: 5px;
+        }
+
+        tr:nth-child(even) {
+            background: #e8eeef;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 20px;
+            font-weight: 300;
+        }
+
+        tfoot tr {
+            background: none;
+        }
+
+        tfoot td {
+            padding: 10px 2px;
+            font-size: 0.8em;
+            font-style: italic;
+            color: #8a97a0;
+        }
+    </style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <style amp-custom>
+        h1 {
+            margin: 1rem;
+        }
+    </style>
+    <style amp-custom>
+        .ampTabContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tabButton[selected] {
+            outline: none;
+            background: #ccc;
+        }
+
+        .tabButton {
+            list-style: none;
+            flex-grow: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .tabContent {
+            display: none;
+            width: 100%;
+            order: 1;
+            /* must be greater than the order of the tab buttons to flex to the next line */
+            border: 1px solid #ccc;
+        }
+
+        .tabButton[selected]+.tabContent {
+            display: block;
+        }
+
+        /* For example below (not required) */
+
+        .itemCustom {
+            border: 1px solid #000;
+            height: 280px;
+            width: 380px;
+            margin: 10px;
+            text-align: center;
+            padding-top: 140px;
+        }
+
+        amp-selector {
+            padding: 1rem;
+            margin: 1rem;
+        }
+    </style>
+    <script async custom-element="amp-selector" src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"></script>
+    <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+</head>
+
+<body>
+
+    <amp-selector role="tablist" layout="container" class="ampTabContainer">
+        <div role="tab" class="tabButton" selected option="a">Trek Drivers</div>
+        <div role="tabpanel" class="tabContent">
+            <table>
+                <caption>Drivers</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Driver ID</th>
+                        <th scope="col">License No.</th>
+                        <th scope="col">Car Model</th>
+                    </tr>
+                </thead>
+                <tfoot>
+
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <th scope="row">000001</th>
+                        <td>56 888 890</td>
+                        <td>Honda Civic 2018</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000002</th>
+                        <td>87 823 333</td>
+                        <td>Nissan Altima 2014</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000003</th>
+                        <td>66 188 000</td>
+                        <td>Chevy Impala 2014</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000004</th>
+                        <td>54 999 230</td>
+                        <td>Chevy Impala 2009</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div role="tab" class="tabButton" option="b">Trek Riders</div>
+        <div role="tabpanel" class="tabContent">
+             <table>
+                <caption>Riders</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Rider ID</th>
+                        <th scope="col">Max fare</th>
+                        <th scope="col">Rating</th>
+                    </tr>
+                </thead>
+                <tfoot>
+
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <th scope="row">000001</th>
+                        <td>$6.00</td>
+                        <td>10/10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000002</th>
+                        <td>$16.00</td>
+                        <td>7/10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000003</th>
+                        <td>66 188 000</td>
+                        <td>10/10</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">000004</th>
+                        <td>54 999 230</td>
+                        <td>4/10; they were drunk</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </amp-selector>
+
+</body>
+
+</html>

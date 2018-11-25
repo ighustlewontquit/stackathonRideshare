@@ -1,0 +1,31 @@
+I181125 18:41:45.218394 1 util/log/clog.go:1176  [config] file created at: 2018/11/25 18:41:45
+I181125 18:41:45.218394 1 util/log/clog.go:1176  [config] running on machine: coderrick-stackathon-6570833
+I181125 18:41:45.218394 1 util/log/clog.go:1176  [config] binary: CockroachDB CCL v2.1.1 (x86_64-unknown-linux-gnu, built 2018/11/19 18:24:21, go1.10.3)
+I181125 18:41:45.218394 1 util/log/clog.go:1176  [config] arguments: [cockroach start]
+I181125 18:41:45.218394 1 util/log/clog.go:1176  line format: [IWEF]yymmdd hh:mm:ss.uuuuuu goid file:line msg utf8=✓
+W181125 18:41:45.218392 1 cli/start.go:935  Using the default setting for --cache (128 MiB).
+  A significantly larger value is usually needed for good performance.
+  If you have a dedicated server a reasonable setting is --cache=.25 (128 MiB).
+W181125 18:41:45.219169 1 cli/start.go:948  Using the default setting for --max-sql-memory (128 MiB).
+  A significantly larger value is usually needed in production.
+  If you have a dedicated server a reasonable setting is --max-sql-memory=.25 (128 MiB).
+I181125 18:41:45.219463 1 cli/start.go:1069  CockroachDB CCL v2.1.1 (x86_64-unknown-linux-gnu, built 2018/11/19 18:24:21, go1.10.3)
+I181125 18:41:45.321221 1 server/config.go:385  system total memory: 512 MiB
+I181125 18:41:45.321437 1 server/config.go:387  server configuration:
+max offset             500000000
+cache size             128 MiB
+SQL memory pool size   128 MiB
+scan interval          10m0s
+scan min idle time     10ms
+scan max idle time     1s
+event log enabled      true
+I181125 18:41:45.321481 1 cli/start.go:920  process identity: uid 1000 euid 1000 gid 1000 egid 1000
+I181125 18:41:45.321514 1 cli/start.go:545  starting cockroach node
+E181125 18:41:45.327727 1 cli/error.go:230  cannot load certificates.
+Check your certificate settings, set --certs-dir, or use --insecure for insecure clusters.
+
+problem with CA certificate: not found
+Error: cannot load certificates.
+Check your certificate settings, set --certs-dir, or use --insecure for insecure clusters.
+
+problem with CA certificate: not found
