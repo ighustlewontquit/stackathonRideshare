@@ -3,7 +3,10 @@
 <body>
     <script charset="utf-8" src="https://cdn.ethers.io/scripts/ethers-v4.min.js" type="text/javascript">
     </script>
-    <!--* <p>Are you a Driver or a Passenger?</p>
+    <!--*<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk="
+        crossorigin="anonymous"></script>
+
+     <p>Are you a Driver or a Passenger?</p>
     <a href="driverpage.html">Driver</a>
     <a href="passengerpage.html">Passenger</a>
 
@@ -13,19 +16,20 @@
             <input type="submit" onclick="getIssuer()">
         </form>
     </p>-->
+    <p>Driver's Menu</p>
     <p>Enter Offer Expiry Date (MMDDYY) format: 101020
         <form id="form" onsubmit="return false;">
             <input type="text" id="userInput2">
             <input type="submit" onclick="getDeadline()">
         </form>
     </p>
-    <p>Enter Longitude: 100
+    <p>Enter Starting Longitude: 100
         <form id="form" onsubmit="return false;">
             <input type="text" id="userInput3">
             <input type="submit" onclick="getLong()">
         </form>
     </p>
-    <p>Enter Latitude: 900
+    <p>Enter Starting Latitude: 900
         <form id="form" onsubmit="return false;">
             <input type="text" id="userInput4">
             <input type="submit" onclick="getLat()">
@@ -47,6 +51,10 @@
         var f = "0x0000000000000000000000000000000000000000";
         var g = "false";
         var h = "0x0000000000000000000000000000000000000000";
+        var i = 6000;
+        var j = 1;
+
+
 
         function getIssuer() {
             var input = document.getElementById("userInput1").value;
@@ -78,30 +86,62 @@
             e = _e;
             console.log(_e);
         }
+
+        //101020, 100, 200, 50, "0x0000000000000000000000000000000000000000", "false", "0x0000000000000000000000000000000000000000"
+        // 101020, 100, 200, 50, "0x0000000000000000000000000000000000000000", "false", "0x0000000000000000000000000000000000000000", 60
     </script>
 
     <button onclick="issueBounty()"> Create a Ride Offer </button>
+    <button onclick="activateBounty()"> Driver to confirm ready status </button>
+    <button onclick="fulfillBounty()"> Driver to confirm passenger enters car </button>
+
+<br></br>
+
+<p>Passenger's Menu</p>
+
+<button onclick="issueAndActivateBounty()"> Passenger to confirm ride selection or match </button>
+<button onclick="updateFulfillment()"> Passenger to confirm entry into vehicle</button>
+<button onclick="acceptFulfillment()"> Passenger to confirm ride completion </button>
 
     <script>
         var provider = new ethers.providers.Web3Provider(web3.currentProvider, 'rinkeby');
 
-        var ContractAddress = "0xf086c8abd34ee8a08f66209f80c9622ad17946be";
-        var ContractABI = [{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_fulfillmentId","type":"uint256"}],"name":"acceptFulfillment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_value","type":"uint256"}],"name":"activateBounty","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_newDeadline","type":"uint256"}],"name":"extendDeadline","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"}],"name":"fulfillBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_issuer","type":"address"},{"name":"_deadline","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"},{"name":"_fulfillmentAmount","type":"uint256"},{"name":"_arbiter","type":"address"},{"name":"_paysTokens","type":"bool"},{"name":"_tokenContract","type":"address"},{"name":"_value","type":"uint256"}],"name":"issueAndActivateBounty","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_deadline","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"},{"name":"_fulfillmentAmount","type":"uint256"},{"name":"_arbiter","type":"address"},{"name":"_paysTokens","type":"bool"},{"name":"_tokenContract","type":"address"}],"name":"issueBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"}],"name":"killBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_owner","type":"address"}],"name":"StandardBounties","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_fulfillmentId","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"}],"name":"updateFulfillment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"}],"name":"BountyIssued","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":false,"name":"issuer","type":"address"}],"name":"BountyActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"fulfiller","type":"address"},{"indexed":true,"name":"_fulfillmentId","type":"uint256"}],"name":"BountyFulfilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":false,"name":"_fulfillmentId","type":"uint256"}],"name":"FulfillmentUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"fulfiller","type":"address"},{"indexed":true,"name":"_fulfillmentId","type":"uint256"}],"name":"FulfillmentAccepted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"issuer","type":"address"}],"name":"BountyKilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"contributor","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"ContributionAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":false,"name":"newDeadline","type":"uint256"}],"name":"DeadlineExtended","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"}],"name":"BountyChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":true,"name":"_newIssuer","type":"address"}],"name":"IssuerTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":false,"name":"_newFulfillmentAmount","type":"uint256"}],"name":"PayoutIncreased","type":"event"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bounties","outputs":[{"name":"issuer","type":"address"},{"name":"deadline","type":"uint256"},{"name":"long","type":"uint256"},{"name":"lat","type":"uint256"},{"name":"fulfillmentAmount","type":"uint256"},{"name":"arbiter","type":"address"},{"name":"paysTokens","type":"bool"},{"name":"bountyStage","type":"uint8"},{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}];
+        var ContractAddress = "0x4820a7f6e44ed21ea86530fe9ed9e3acc998d903";
+        var ContractABI = [{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_fulfillmentId","type":"uint256"}],"name":"acceptFulfillment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_value","type":"uint256"}],"name":"activateBounty","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_newDeadline","type":"uint256"}],"name":"extendDeadline","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"}],"name":"fulfillBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_deadline","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"},{"name":"_fulfillmentAmount","type":"uint256"},{"name":"_arbiter","type":"address"},{"name":"_paysTokens","type":"bool"},{"name":"_tokenContract","type":"address"},{"name":"_value","type":"uint256"}],"name":"issueAndActivateBounty","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_deadline","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"},{"name":"_fulfillmentAmount","type":"uint256"},{"name":"_arbiter","type":"address"},{"name":"_paysTokens","type":"bool"},{"name":"_tokenContract","type":"address"}],"name":"issueBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"}],"name":"killBounty","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_owner","type":"address"}],"name":"StandardBounties","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_bountyId","type":"uint256"},{"name":"_fulfillmentId","type":"uint256"},{"name":"_long","type":"uint256"},{"name":"_lat","type":"uint256"}],"name":"updateFulfillment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"}],"name":"BountyIssued","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":false,"name":"issuer","type":"address"}],"name":"BountyActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"fulfiller","type":"address"},{"indexed":true,"name":"_fulfillmentId","type":"uint256"}],"name":"BountyFulfilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":false,"name":"_fulfillmentId","type":"uint256"}],"name":"FulfillmentUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"fulfiller","type":"address"},{"indexed":true,"name":"_fulfillmentId","type":"uint256"}],"name":"FulfillmentAccepted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"issuer","type":"address"}],"name":"BountyKilled","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":true,"name":"contributor","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"ContributionAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"},{"indexed":false,"name":"newDeadline","type":"uint256"}],"name":"DeadlineExtended","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"bountyId","type":"uint256"}],"name":"BountyChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":true,"name":"_newIssuer","type":"address"}],"name":"IssuerTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_bountyId","type":"uint256"},{"indexed":false,"name":"_newFulfillmentAmount","type":"uint256"}],"name":"PayoutIncreased","type":"event"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bounties","outputs":[{"name":"issuer","type":"address"},{"name":"deadline","type":"uint256"},{"name":"long","type":"uint256"},{"name":"lat","type":"uint256"},{"name":"fulfillmentAmount","type":"uint256"},{"name":"arbiter","type":"address"},{"name":"paysTokens","type":"bool"},{"name":"bountyStage","type":"uint8"},{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}];
         var Contract;
+        var rideID;
+
 
         provider.listAccounts().then(function (accounts) {
             signer = provider.getSigner(accounts[0]);
             Contract = new ethers.Contract(ContractAddress, ContractABI, signer);
-            console.log(Contract);
-
+            //console.log(Contract);
         })
-        async function issueBounty() {
-            promise = Contract.issueBounty(b, c, d, e, f, g, h);
+        async function issueBounty() { //drivier creates offer
+            rideID = Contract.issueBounty(b, c, d, e, f, g, h);
+            await rideID;
+        }
+        async function issueAndActivateBounty() { //rider matches with offer
+            promise = Contract.issueAndActivateBounty(b, c, d, e, f, g, h, i);
             await promise;
         }
-
+        async function activateBounty() { //driver confirms ride starts
+            promise = Contract.activateBounty(j, i);
+            await promise;
+        }
+        async function fulfillBounty() { //driver confirms ride ends
+            promise = Contract.fulfillBounty(j, c, d);
+            await promise;
+        }
+        async function updateFulfillment() { //passenger confirms ride starts
+            promise = Contract.updateFulfillment(j, j-1, c+100, d);
+            await promise;
+        }
+        async function acceptFulfillment() { //passenger confirms ride end
+            promise = Contract.acceptFulfillment(j, j-1);
+            await promise;
+        }
     </script>
-
 </body>
 
 </html>

@@ -51,7 +51,7 @@ contract CarpoolBounties {
       uint long;
       uint lat;
   }
-
+/**
   modifier validateNotTooManyBounties(){
     require((bounties.length + 1) > bounties.length);
     _;
@@ -120,7 +120,7 @@ contract CarpoolBounties {
   modifier notYetAccepted(uint _bountyId, uint _fulfillmentId){
       require(fulfillments[_bountyId][_fulfillmentId].accepted == false);
       _;
-  }
+  }**/
 
   function StandardBounties(address _owner)
       public
@@ -129,7 +129,7 @@ contract CarpoolBounties {
   }
 
   function issueBounty( //the driver should be using this function 
-      address _issuer,
+      //address _issuer,
       uint _deadline,
       uint _long,
       uint _lat,
@@ -139,21 +139,22 @@ contract CarpoolBounties {
       address _tokenContract
   )
       public
-      validateDeadline(_deadline)
+      //validateDeadline(_deadline)
       //amountIsNotZero(_fulfillmentAmount)
-      validateNotTooManyBounties
-      returns (uint)
+      //validateNotTooManyBounties
+      //returns (uint)
   {
-      bounties.push(Bounty(_issuer, _deadline, _long, _lat, _fulfillmentAmount, _arbiter, _paysTokens, BountyStages.Draft, 0));
+      address _issuer = msg.sender;
+      bounties.push(Bounty(_issuer, _deadline, _long, _lat, _fulfillmentAmount, _arbiter, _paysTokens, BountyStages.Draft, 1000));
       if (_paysTokens){
         tokenContracts[bounties.length - 1] = ERC20(_tokenContract);
       }
       emit BountyIssued(bounties.length - 1);
-      return (bounties.length - 1);
+      //return (bounties.length - 1);
   }
   
-  function issueAndActivateBounty( //the rider should be using this function
-      address _issuer,
+  function issueAndActivateBounty( //the rider should be using this function to match with a ride
+      //address _issuer,
       uint _deadline,
       uint _long,
       uint _lat,
@@ -165,21 +166,20 @@ contract CarpoolBounties {
   )
       public
       payable
-      validateDeadline(_deadline)
+      //validateDeadline(_deadline)
       //amountIsNotZero(_fulfillmentAmount)
-      validateNotTooManyBounties
-      returns (uint)
+      //validateNotTooManyBounties
+      //returns (uint)
   {
-      require (_value >= _fulfillmentAmount); //driverssettheprice
-      uint beforebalance = msg.value;
-      uint afterbalance = beforebalance - _value;
-      if (_paysTokens){
-        require(msg.value == afterbalance);
+      address _issuer = 0x0000000000000000000000000000000000000000;
+      require (_value >= _fulfillmentAmount);
+      ///if (_paysTokens){
+        //require(msg.value == 0);
         tokenContracts[bounties.length] = ERC20(_tokenContract);
-        require(tokenContracts[bounties.length].transferFrom(msg.sender, this, _value));
-      } else {
-        require((_value * 1 wei) == msg.value);
-      }
+        ///require(tokenContracts[bounties.length].transferFrom(msg.sender, this, _value));
+      //} else {
+        //require((_value * 1 wei) == msg.value);
+      //}
       bounties.push(Bounty(_issuer,
                             _deadline,
                             _long,
@@ -189,24 +189,24 @@ contract CarpoolBounties {
                             _paysTokens,
                             BountyStages.Active,
                             _value));
-      emit BountyIssued(bounties.length - 1);
-      emit ContributionAdded(bounties.length - 1, msg.sender, _value);
-      emit BountyActivated(bounties.length - 1, msg.sender);
-      return (bounties.length - 1);
+      ///emit BountyIssued(bounties.length - 1);
+      //emit ContributionAdded(bounties.length - 1, msg.sender, _value);
+      //emit BountyActivated(bounties.length - 1, msg.sender);
+      //return (bounties.length - 1);
   }
 
-  modifier isNotDead(uint _bountyId) {
-      require(bounties[_bountyId].bountyStage != BountyStages.Dead);
-      _;
-  }
+  ///modifier isNotDead(uint _bountyId) {
+   //   require(bounties[_bountyId].bountyStage != BountyStages.Dead);
+     // _;
+ // }
   
   function activateBounty(uint _bountyId, uint _value) //driver uses this function to pay himself - should be at the start of the ride
       payable
       public
-      validateBountyArrayIndex(_bountyId)
-      isBeforeDeadline(_bountyId)
-      onlyIssuer(_bountyId)
-      transferredAmountEqualsValue(_bountyId, _value)
+      //validateBountyArrayIndex(_bountyId)
+      //isBeforeDeadline(_bountyId)
+      //onlyIssuer(_bountyId)
+      //transferredAmountEqualsValue(_bountyId, _value)
   {
       bounties[_bountyId].balance += _value; //need to pay escrow instead some reputation tokens
       require (bounties[_bountyId].balance >= bounties[_bountyId].fulfillmentAmount);
@@ -216,18 +216,18 @@ contract CarpoolBounties {
       emit BountyActivated(_bountyId, msg.sender);
   }
 
-  modifier notIssuerOrArbiter(uint _bountyId) {
-      require(msg.sender != bounties[_bountyId].issuer && msg.sender != bounties[_bountyId].arbiter);
-      _;
-  }
+  //modifier notIssuerOrArbiter(uint _bountyId) {
+//      require(msg.sender != bounties[_bountyId].issuer && msg.sender != bounties[_bountyId].arbiter);
+  //    _;
+ // }
 
-  function fulfillBounty(uint _bountyId, uint _long, uint _lat) //driver confirms ride has ended
+  function fulfillBounty(uint _bountyId, uint _long, uint _lat) //driver confirms rider got in the car
       public
-      validateBountyArrayIndex(_bountyId)
-      validateNotTooManyFulfillments(_bountyId)
-      isAtStage(_bountyId, BountyStages.Active)
-      isBeforeDeadline(_bountyId)
-      notIssuerOrArbiter(_bountyId)
+      //validateBountyArrayIndex(_bountyId)
+      //validateNotTooManyFulfillments(_bountyId)
+      //isAtStage(_bountyId, BountyStages.Active)
+      //isBeforeDeadline(_bountyId)
+      //notIssuerOrArbiter(_bountyId)
   {
       fulfillments[_bountyId].push(Fulfillment(false, msg.sender, _long, _lat));
 
@@ -236,21 +236,20 @@ contract CarpoolBounties {
 
   function updateFulfillment(uint _bountyId, uint _fulfillmentId, uint _long, uint _lat) //rider should confirm the has started
       public
-      validateBountyArrayIndex(_bountyId)
-      validateFulfillmentArrayIndex(_bountyId, _fulfillmentId)
-      onlyFulfiller(_bountyId, _fulfillmentId)
-      notYetAccepted(_bountyId, _fulfillmentId)
+     // validateBountyArrayIndex(_bountyId)
+     // validateFulfillmentArrayIndex(_bountyId, _fulfillmentId)
+     // onlyFulfiller(_bountyId, _fulfillmentId)
+     // notYetAccepted(_bountyId, _fulfillmentId)
   {
       fulfillments[_bountyId][_fulfillmentId].long = _long;
       fulfillments[_bountyId][_fulfillmentId].lat = _lat;
       emit FulfillmentUpdated(_bountyId, _fulfillmentId);
-  }
-
-  modifier onlyIssuerOrArbiter(uint _bountyId) {
-      require(msg.sender == bounties[_bountyId].issuer ||
-         (msg.sender == bounties[_bountyId].arbiter && bounties[_bountyId].arbiter != address(0)));
-      _;
-  }
+  }/**
+  ///modifier onlyIssuerOrArbiter(uint _bountyId) {
+    //  require(msg.sender == bounties[_bountyId].issuer ||
+  //       (msg.sender == bounties[_bountyId].arbiter && bounties[_bountyId].arbiter != address(0)));
+ //     _;
+ // }
 
   modifier fulfillmentNotYetAccepted(uint _bountyId, uint _fulfillmentId) {
       require(fulfillments[_bountyId][_fulfillmentId].accepted == false);
@@ -260,32 +259,32 @@ contract CarpoolBounties {
   modifier enoughFundsToPay(uint _bountyId) {
       require(bounties[_bountyId].balance >= bounties[_bountyId].fulfillmentAmount);
       _;
-  }
+  }**/
   
   function acceptFulfillment(uint _bountyId, uint _fulfillmentId) //rider should confirm that ride has ended
       public
-      validateBountyArrayIndex(_bountyId)
+      /**validateBountyArrayIndex(_bountyId)
       validateFulfillmentArrayIndex(_bountyId, _fulfillmentId)
       onlyIssuerOrArbiter(_bountyId)
       isAtStage(_bountyId, BountyStages.Active)
       fulfillmentNotYetAccepted(_bountyId, _fulfillmentId)
-      enoughFundsToPay(_bountyId)
+      enoughFundsToPay(_bountyId)**/
   {
       fulfillments[_bountyId][_fulfillmentId].accepted = true;
       numAccepted[_bountyId]++;
       bounties[_bountyId].balance -= bounties[_bountyId].fulfillmentAmount;
       if (bounties[_bountyId].paysTokens){
-        require(tokenContracts[_bountyId].transfer(fulfillments[_bountyId][_fulfillmentId].fulfiller, bounties[_bountyId].fulfillmentAmount));
+        ///require(tokenContracts[_bountyId].transfer(fulfillments[_bountyId][_fulfillmentId].fulfiller, bounties[_bountyId].fulfillmentAmount));
       } else {
         fulfillments[_bountyId][_fulfillmentId].fulfiller.transfer(bounties[_bountyId].fulfillmentAmount);
       }
-      emit FulfillmentAccepted(_bountyId, msg.sender, _fulfillmentId);
+      emit FulfillmentAccepted(_bountyId, 0x0000000000000000000000000000000000000000, _fulfillmentId);
   }
 
   function killBounty(uint _bountyId) //if driver wants to cancel the ride 
       public
-      validateBountyArrayIndex(_bountyId)
-      onlyIssuer(_bountyId)
+     // validateBountyArrayIndex(_bountyId)
+      ///onlyIssuer(_bountyId)
   {
       transitionToState(_bountyId, BountyStages.Dead);
       uint oldBalance = bounties[_bountyId].balance;
@@ -300,16 +299,15 @@ contract CarpoolBounties {
       emit BountyKilled(_bountyId, msg.sender);
   }
 
-  modifier newDeadlineIsValid(uint _bountyId, uint _newDeadline) {
-      require(_newDeadline > bounties[_bountyId].deadline);
-      _;
-  }
-
+  //modifier newDeadlineIsValid(uint _bountyId, uint _newDeadline) {
+    //  require(_newDeadline > bounties[_bountyId].deadline);
+     // _;
+ //
   function extendDeadline(uint _bountyId, uint _newDeadline) //if
       public
-      validateBountyArrayIndex(_bountyId)
-      onlyIssuer(_bountyId)
-      newDeadlineIsValid(_bountyId, _newDeadline)
+     // validateBountyArrayIndex(_bountyId)
+    //  onlyIssuer(_bountyId)
+    //  newDeadlineIsValid(_bountyId, _newDeadline)
   {
       bounties[_bountyId].deadline = _newDeadline;
 
